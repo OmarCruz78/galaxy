@@ -4,12 +4,45 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Galaxy</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+  
   <style>
     html, body { height: 100%; margin: 0; background: #000; }
     canvas { display: block; width: 100%; height: 100%; }
   </style>
 </head>
 <body>
+
+<nav>
+   <h2> Omar Cruz</h2>
+    
+    
+</nav>
+
+
+
+    <!-- Footer con redes -->
+
+<!-- HTML -->
+<div class="footer">
+  <a href="https://instagram.com/tu_usuario" target="_blank" aria-label="Instagram">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://github.com/tu_usuario" target="_blank" aria-label="GitHub">
+    <i class="fab fa-github"></i>
+  </a>
+  <a href="https://wa.me/tu_numero" target="_blank" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<!-- Carga de Font Awesome (agrega en tu <head>) -->
+
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
   // ---------- Parámetros (se mantuvieron los pedidos) ----------
@@ -272,32 +305,83 @@ if (sprite) {
     camera.updateProjectionMatrix();
   });
 
-  // ---------- Overlay UI (donaciones) ----------
-  window.addEventListener('load', () => {
-    const style = document.createElement('style');
-    style.textContent = `
-      #alertOverlay { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; background: rgba(0,0,0,0.56); z-index: 9999; }
-      #alertBox { background: #fff; color: #222; padding: 18px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); text-align: center; min-width: 240px; max-width: 86%; }
-      #alertBox h2 { margin: 0 0 8px 0; font-size: 17px; }
-      #alertMessage { margin: 0; font-size: 14px; line-height: 1.4; }
-      #alertButton { margin-top: 12px; background: #1f8ef1; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
-    `;
-    document.head.appendChild(style);
+  // ---------- Overlay UI ----------
 
-    const overlay = document.createElement('div'); overlay.id = 'alertOverlay';
-    const box = document.createElement('div'); box.id = 'alertBox';
-    const title = document.createElement('h2'); title.textContent = 'Explora las estrellas, y descubre el universo que habita en ti.   Explore the stars, and discover the universe within you.';
-    const message = document.createElement('p'); message.id = 'alertMessage';
-    message.innerHTML = 'Visita mi portafolio en  <a href="#" target="_blank" rel="noopener noreferrer">Portfolio Web</a>.';
-    const btn = document.createElement('button'); btn.id = 'alertButton'; btn.textContent = 'OK';
-    btn.onclick = () => overlay.style.display = 'none';
 
-    box.appendChild(title); box.appendChild(message); box.appendChild(btn);
-    overlay.appendChild(box); document.body.appendChild(overlay);
 
-    // mostrar overlay una vez al inicio (opcional)
-    setTimeout(() => overlay.style.display = 'flex', 700);
+// --- Overlay multilenguaje con banderas ---
+(function createMultilangOverlay() {
+  const style = document.createElement('style');
+  style.textContent = `
+    #alertOverlay { position: fixed; inset: 0; display: none; justify-content: center; align-items: center; background: rgba(0,0,0,0.64); z-index: 9999; font-family: 'Poppins', sans-serif; }
+    #alertBox { background: #090f1f; color: #e9eef8; padding: 26px 30px; border-radius: 16px; box-shadow: 0 12px 36px rgba(0,0,0,0.7); text-align: center; min-width: 280px; max-width: 92%; animation: fadeIn 0.5s ease forwards; }
+    #alertBox h2 { margin: 0 0 10px 0; font-size: 18px; line-height:1.25; font-weight:600; color: #fff; }
+    #alertMessage { margin: 0 0 14px 0; font-size: 14px; color: #d7e3ff; }
+    .lang-row { display:flex; gap:10px; justify-content:center; margin-bottom:14px; flex-wrap:wrap; }
+    .lang-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.05); color: #fff; padding: 8px 12px; border-radius: 10px; cursor:pointer; font-size:13px; display:flex; align-items:center; gap:6px; transition: all 0.25s ease; }
+    .lang-btn span.flag { font-size:16px; }
+    .lang-btn[aria-pressed="true"] { background: rgba(178,150,255,0.15); border-color: rgba(178,150,255,0.25); transform: translateY(-2px); }
+    #alertButton { background: linear-gradient(90deg,#8f6bff,#5fa5ff); color: #fff; border: none; padding: 10px 24px; border-radius: 12px; cursor: pointer; font-weight:600; font-size:14px; transition: all 0.3s ease; }
+    #alertButton:hover { opacity: 0.9; transform: translateY(-2px); }
+    a.portfolio-link { color: #bfbfff; text-decoration: underline; }
+    @keyframes fadeIn { from {opacity:0; transform: scale(0.95);} to {opacity:1; transform: scale(1);} }
+  `;
+  document.head.appendChild(style);
+
+  const overlay = document.createElement('div'); overlay.id = 'alertOverlay';
+  const box = document.createElement('div'); box.id = 'alertBox';
+
+  const title = document.createElement('h2');
+  title.id = 'alertTitle';
+  title.textContent = 'Descubre el universo que hay en ti';
+
+  const message = document.createElement('p');
+  message.id = 'alertMessage';
+  message.innerHTML = 'Visita mi portafolio en <a class="portfolio-link" href="#" target="_blank" rel="noopener noreferrer">Portfolio Web</a>.';
+
+  // idiomas con banderas
+const langs = [
+  { code: 'es', label: 'Español', flag: 'https://flagcdn.com/w20/es.png', title: 'Descubre el universo que hay en ti', message: message.innerHTML },
+  { code: 'en', label: 'English', flag: 'https://flagcdn.com/w20/gb.png', title: 'Discover the universe within you', message: 'Visit my portfolio at <a class="portfolio-link" href="#" target="_blank" rel="noopener noreferrer">Portfolio Web</a>.' },
+  { code: 'fr', label: 'Français', flag: 'https://flagcdn.com/w20/fr.png', title: "Découvrez l'univers qui est en vous", message: "Visitez mon portfolio sur <a class='portfolio-link' href='#' target='_blank' rel='noopener noreferrer'>Portfolio Web</a>." },
+  { code: 'qu', label: 'Quechua', flag: 'https://flagcdn.com/w20/pe.png', title: 'Rikhuy kay pachapi kawsayki, qampi wiñay kawsayta', message: 'Rikhuy ñuqanchik portfolio nisqapi (traducción aproximada).' }
+];
+
+  const langRow = document.createElement('div'); langRow.className = 'lang-row';
+  langs.forEach((l) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'lang-btn';
+
+    btn.innerHTML = `<img src="${l.flag}" alt="${l.label}" class="flag"> ${l.label}`;
+   
+    btn.setAttribute('data-code', l.code);
+    btn.setAttribute('aria-pressed', l.code === 'es' ? 'true' : 'false');
+    btn.onclick = () => {
+      title.textContent = l.title;
+      message.innerHTML = l.message;
+      document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+    };
+    langRow.appendChild(btn);
   });
+
+  const okBtn = document.createElement('button');
+  okBtn.id = 'alertButton';
+  okBtn.textContent = 'OK';
+  okBtn.onclick = () => overlay.style.display = 'none';
+
+  box.appendChild(title);
+  box.appendChild(message);
+  box.appendChild(langRow);
+  box.appendChild(okBtn);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  // mostrar automáticamente
+  setTimeout(() => overlay.style.display = 'flex', 700);
+})();
+
 
   </script>
 </body>
